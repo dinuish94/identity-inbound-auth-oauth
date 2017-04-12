@@ -47,6 +47,7 @@
         <module>components/org.wso2.carbon.identity.oauth.stub</module>
         <module>components/org.wso2.carbon.identity.oidc.session</module>
         <module>components/org.wso2.carbon.identity.oauth.dcr</module>
+        <module>components/org.wso2.carbon.identity.oauth.dcrm</module>
         <module>components/org.wso2.carbon.identity.oidc.dcr</module>
         <module>components/org.wso2.carbon.identity.discovery</module>
         <module>components/org.wso2.carbon.identity.webfinger</module>
