@@ -40,11 +40,11 @@ public class DCRMServiceComponent {
     protected void activate(ComponentContext componentContext) {
 
         try {
-
+            log.debug("Processing started by DCRMServiceComponent");
             componentContext.getBundleContext().registerService(IdentityProcessor.class.getName(),
                                                                 new DCRMProcessor(), null);
         } catch (Throwable e) {
-            log.error("Error occurred while activating DCRServiceComponent", e);
+            log.error("Error occurred while activating DCRMServiceComponent", e);
         }
     }
 

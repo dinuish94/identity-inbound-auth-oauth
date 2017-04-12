@@ -9,8 +9,8 @@
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.carbon.identity.oauth.dcrm</artifactId>
-    <name>WSO2 Carbon - Dynamic Client Registration Web Service</name>
-    <description>WSO2 Carbon - Dynamic Client Registration Web</description>
+    <name>WSO2 Carbon - Dynamic Client Registration Management Web Service</name>
+    <description>WSO2 Carbon - Dynamic Client Registration Management Web</description>
     <packaging>bundle</packaging>
     <url>http://wso2.org</url>
 
@@ -62,7 +62,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
-                        <Bundle-Description>Dynamic Client Registration Bundle</Bundle-Description>
+                        <Bundle-Description>Dynamic Client Registration Management Bundle</Bundle-Description>
                         <Private-Package>org.wso2.carbon.identity.oauth.dcrm.internal</Private-Package>
                         <Import-Package>
                             org.osgi.framework; version="${osgi.framework.imp.pkg.version.range}",
