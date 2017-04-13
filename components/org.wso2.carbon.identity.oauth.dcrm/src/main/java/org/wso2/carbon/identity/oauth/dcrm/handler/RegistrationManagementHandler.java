@@ -19,14 +19,15 @@ public class RegistrationManagementHandler {
     public IdentityResponse.IdentityResponseBuilder handle(DCRMessageContext dcrMessageContext){
         log.debug("Request processing started by RegistrationManagementHandler.");
 
+        RegistrationManagementRequest registrationManagementRequest = (RegistrationManagementRequest) dcrMessageContext.getIdentityRequest();
+
         RegistrationResponse.DCRRegisterResponseBuilder dcrRegisterResponseBuilder = null;
 
         RegistrationResponseProfile registrationResponseProfile =
-                DCRMService.getInstance().getApplicationData();
+                DCRMService.getInstance().getApplicationData(registrationManagementRequest.getConsumerKey());
 
         dcrRegisterResponseBuilder = new RegistrationResponse.DCRRegisterResponseBuilder();
         dcrRegisterResponseBuilder.setRegistrationResponseProfile(registrationResponseProfile);
-
 
         return dcrRegisterResponseBuilder;
     }

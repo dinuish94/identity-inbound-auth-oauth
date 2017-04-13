@@ -21,11 +21,11 @@ public class DCRMService {
         return DCRMService.dcrManagementService;
     }
 
-    public RegistrationResponseProfile getApplicationData(){
+    public RegistrationResponseProfile getApplicationData(String consumerKey){
         OAuthAdminService oAuthAdminService = new OAuthAdminService();
         RegistrationResponseProfile registrationResponseProfile = new RegistrationResponseProfile();
         try {
-            OAuthConsumerAppDTO app = oAuthAdminService.getOAuthApplicationDataByAppName("admin_application_1");
+            OAuthConsumerAppDTO app = oAuthAdminService.getOAuthApplicationData(consumerKey);
             registrationResponseProfile.setClientId(app.getOauthConsumerKey());
             registrationResponseProfile.getRedirectUrls().add(app.getCallbackUrl());
             registrationResponseProfile.setClientSecret(app.getOauthConsumerSecret());

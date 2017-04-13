@@ -49,7 +49,7 @@ public class DCRMProcessor extends IdentityProcessor {
         boolean canHandle = false;
         if (identityRequest != null) {
             Matcher registerMatcher =
-                    Pattern.compile("(.*)/register/?").matcher(identityRequest.getRequestURI());
+                    Pattern.compile("(.*)/identity/register/(.+)").matcher(identityRequest.getRequestURI());
             if (registerMatcher.matches() && identityRequest.getMethod().equals("GET")) {
                 canHandle = true;
             }

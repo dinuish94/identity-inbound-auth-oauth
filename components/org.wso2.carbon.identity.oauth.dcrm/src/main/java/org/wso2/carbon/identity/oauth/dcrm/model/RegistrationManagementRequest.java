@@ -13,22 +13,41 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class RegistrationManagementRequest extends IdentityRequest {
 
+    private String consumerKey;
+
     public RegistrationManagementRequest(RegistrationRequestBuilder builder) throws FrameworkClientException {
 
         super(builder);
+        this.consumerKey = builder.consumerKey;
+    }
 
+    public String getConsumerKey() {
+        return consumerKey;
+    }
+
+    public void setConsumerKey(String consumerKey) {
+        this.consumerKey = consumerKey;
     }
 
     public static class RegistrationRequestBuilder extends IdentityRequestBuilder {
 
-        public RegistrationRequestBuilder(HttpServletRequest request,
-                                          HttpServletResponse response) {
-            super(request, response);
+        private String consumerKey;
+
+        public void setConsumerKey(String consumerKey) {
+            this.consumerKey = consumerKey;
         }
 
-        @Override
-        public RegistrationManagementRequest build() throws FrameworkRuntimeException, FrameworkClientException {
+        public RegistrationManagementRequest build() throws FrameworkClientException {
             return new RegistrationManagementRequest(this);
         }
+//        public RegistrationRequestBuilder(HttpServletRequest request,
+//                                          HttpServletResponse response) {
+//            super(request, response);
+//        }
+//
+//        @Override
+//        public RegistrationManagementRequest build() throws FrameworkRuntimeException, FrameworkClientException {
+//            return new RegistrationManagementRequest(this);
+//        }
     }
 }

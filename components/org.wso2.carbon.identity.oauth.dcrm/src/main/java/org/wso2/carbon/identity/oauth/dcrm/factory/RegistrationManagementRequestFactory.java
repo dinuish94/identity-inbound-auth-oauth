@@ -2,6 +2,7 @@ package org.wso2.carbon.identity.oauth.dcrm.factory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.poi.ss.formula.functions.Match;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.FrameworkClientException;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.FrameworkRuntimeException;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.HttpIdentityRequestFactory;
@@ -25,7 +26,7 @@ public class RegistrationManagementRequestFactory extends HttpIdentityRequestFac
             FrameworkRuntimeException {
         boolean canHandle = false;
         if (request != null) {
-            Matcher matcher = Pattern.compile("(.*)/register/?").matcher(request.getRequestURI());
+            Matcher matcher = Pattern.compile("(.*)/identity/register/(.+)").matcher(request.getRequestURI());
             if (matcher.matches() && HttpMethod.GET.equals(request.getMethod())) {
                 canHandle = true;
             }
@@ -39,7 +40,7 @@ public class RegistrationManagementRequestFactory extends HttpIdentityRequestFac
     @Override
     public RegistrationManagementRequest.RegistrationRequestBuilder create(HttpServletRequest request, HttpServletResponse response) throws FrameworkClientException {
         RegistrationManagementRequest.RegistrationRequestBuilder registerRequestBuilder = new
-                RegistrationManagementRequest.RegistrationRequestBuilder(request, response);
+                RegistrationManagementRequest.RegistrationRequestBuilder();
         create(registerRequestBuilder, request, response);
         return registerRequestBuilder;
     }
@@ -52,5 +53,12 @@ public class RegistrationManagementRequestFactory extends HttpIdentityRequestFac
                 (RegistrationManagementRequest.RegistrationRequestBuilder) builder;
 
         super.create(registerRequestBuilder, request, response);
+        Matcher matcher = Pattern.compile("(.*)/identity/register/(.+)").matcher(request.getRequestURI());
+        String consumerKey = null;
+        if (matcher.find()) {
+            consumerKey = matcher.group(2);
+        }
+
+        registerRequestBuilder.setConsumerKey(consumerKey);
     }
 }
