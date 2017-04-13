@@ -21,8 +21,10 @@ package org.wso2.carbon.identity.oauth.dcrm.internal;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.service.component.ComponentContext;
+import org.wso2.carbon.identity.application.authentication.framework.inbound.HttpIdentityRequestFactory;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityProcessor;
 import org.wso2.carbon.identity.application.mgt.ApplicationManagementService;
+import org.wso2.carbon.identity.oauth.dcrm.factory.RegistrationManagementRequestFactory;
 import org.wso2.carbon.identity.oauth.dcrm.processor.DCRMProcessor;
 
 /**
@@ -38,11 +40,13 @@ public class DCRMServiceComponent {
 
     @SuppressWarnings("unused")
     protected void activate(ComponentContext componentContext) {
-
+        log.debug("Activating DCRMServiceComponent");
         try {
             log.debug("Processing started by DCRMServiceComponent");
             componentContext.getBundleContext().registerService(IdentityProcessor.class.getName(),
                                                                 new DCRMProcessor(), null);
+            componentContext.getBundleContext().registerService(HttpIdentityRequestFactory.class.getName(),
+                    new RegistrationManagementRequestFactory(), null);
         } catch (Throwable e) {
             log.error("Error occurred while activating DCRMServiceComponent", e);
         }

@@ -6,7 +6,6 @@ import org.wso2.carbon.identity.application.authentication.framework.inbound.Ide
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityProcessor;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityRequest;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityResponse;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,9 +16,7 @@ public class DCRMProcessor extends IdentityProcessor {
     @Override
     public IdentityResponse.IdentityResponseBuilder process(IdentityRequest identityRequest){
 
-        if (log.isDebugEnabled()) {
-            log.debug("Request processing started by DCRMProcessor.");
-        }
+        log.debug("Request processing started by DCRMProcessor.");
         return null;
     }
 
@@ -43,14 +40,13 @@ public class DCRMProcessor extends IdentityProcessor {
         boolean canHandle = false;
         if (identityRequest != null) {
             Matcher registerMatcher =
-                    Pattern.compile("(.*)/test/?").matcher(identityRequest.getRequestURI());
+                    Pattern.compile("(.*)/register/?").matcher(identityRequest.getRequestURI());
             if (registerMatcher.matches()) {
                 canHandle = true;
             }
         }
-        if (log.isDebugEnabled()) {
-            log.debug("canHandle " + canHandle + " by DCRMProcessor.");
-        }
+        log.debug("canHandle " + canHandle + " by DCRMProcessor.");
+
         return canHandle;
     }
 }
