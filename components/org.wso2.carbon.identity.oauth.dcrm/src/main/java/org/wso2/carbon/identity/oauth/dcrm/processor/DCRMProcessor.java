@@ -6,6 +6,13 @@ import org.wso2.carbon.identity.application.authentication.framework.inbound.Ide
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityProcessor;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityRequest;
 import org.wso2.carbon.identity.application.authentication.framework.inbound.IdentityResponse;
+import org.wso2.carbon.identity.oauth.dcr.context.DCRMessageContext;
+import org.wso2.carbon.identity.oauth.dcr.handler.RegistrationHandler;
+import org.wso2.carbon.identity.oauth.dcr.model.RegistrationRequest;
+import org.wso2.carbon.identity.oauth.dcr.model.UnregistrationRequest;
+import org.wso2.carbon.identity.oauth.dcr.util.HandlerManager;
+import org.wso2.carbon.identity.oauth.dcrm.handler.RegistrationManagementHandler;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,7 +24,9 @@ public class DCRMProcessor extends IdentityProcessor {
     public IdentityResponse.IdentityResponseBuilder process(IdentityRequest identityRequest){
 
         log.debug("Request processing started by DCRMProcessor.");
-        return null;
+        DCRMessageContext dcrMessageContext = new DCRMessageContext(identityRequest);
+        IdentityResponse.IdentityResponseBuilder identityResponseBuilder = new RegistrationManagementHandler().handle(dcrMessageContext);
+        return identityResponseBuilder;
     }
 
     @Override
@@ -41,7 +50,7 @@ public class DCRMProcessor extends IdentityProcessor {
         if (identityRequest != null) {
             Matcher registerMatcher =
                     Pattern.compile("(.*)/register/?").matcher(identityRequest.getRequestURI());
-            if (registerMatcher.matches()) {
+            if (registerMatcher.matches() && identityRequest.getMethod().equals("GET")) {
                 canHandle = true;
             }
         }
