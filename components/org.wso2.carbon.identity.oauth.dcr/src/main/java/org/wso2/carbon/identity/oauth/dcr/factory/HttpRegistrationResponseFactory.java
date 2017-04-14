@@ -128,6 +128,12 @@ public class HttpRegistrationResponseFactory extends HttpIdentityResponseFactory
         obj.put(RegistrationResponse.DCRegisterResponseConstants.CLIENT_SECRET_EXPIRES_AT, registrationResponse
                 .getRegistrationResponseProfile()
                 .getClientSecretExpiresAt());
+        obj.put(RegistrationResponse.DCRegisterResponseConstants.REGISTRATION_ACCESS_TOKEN, registrationResponse
+                .getRegistrationResponseProfile()
+                .getRegistrationAccessToken());
+        obj.put(RegistrationResponse.DCRegisterResponseConstants.REGISTRATION_CLIENT_URI, registrationResponse
+                .getRegistrationResponseProfile()
+                .getRegistrationClientURI());
         return obj;
     }
 

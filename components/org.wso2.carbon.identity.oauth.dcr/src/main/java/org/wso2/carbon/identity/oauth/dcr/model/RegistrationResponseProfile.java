@@ -34,6 +34,9 @@ public class RegistrationResponseProfile {
     private List<String> redirectUrls = new ArrayList<>();
     private List<String> grantTypes = new ArrayList<>();
 
+    private String registrationAccessToken;
+    private String registrationClientURI;
+
     public String getClientId() {
         return clientId;
     }
@@ -88,5 +91,21 @@ public class RegistrationResponseProfile {
 
     public void setGrantTypes(List<String> grantTypes) {
         this.grantTypes = grantTypes;
+    }
+
+    public String getRegistrationAccessToken() {
+        return registrationAccessToken;
+    }
+
+    public void setRegistrationAccessToken(String registrationAccessToken) {
+        this.registrationAccessToken = registrationAccessToken;
+    }
+
+    public String getRegistrationClientURI() {
+        return registrationClientURI;
+    }
+
+    public void setRegistrationClientURI(String registrationClientURI) {
+        this.registrationClientURI = registrationClientURI;
     }
 }

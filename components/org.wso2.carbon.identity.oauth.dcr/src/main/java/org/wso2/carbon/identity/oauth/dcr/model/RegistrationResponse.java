@@ -69,6 +69,9 @@ public class RegistrationResponse extends IdentityResponse {
         public static final String CLIENT_SECRET_EXPIRES_AT = "client_secret_expires_at";
         public final static String REDIRECT_URIS = "redirect_uris";
         public final static String GRANT_TYPES = "grant_types";
+        public final static String REGISTRATION_ACCESS_TOKEN = "registration_access_token";
+        public final static String REGISTRATION_CLIENT_URI = "registration_client_uri";
+
 
     }
 }

@@ -20,6 +20,12 @@ package org.wso2.carbon.identity.oauth.dcr.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.oltu.oauth2.as.issuer.MD5Generator;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuer;
+import org.apache.oltu.oauth2.as.issuer.OAuthIssuerImpl;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
+import org.apache.oltu.oauth2.common.token.OAuthToken;
 import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.context.RegistryType;
@@ -39,6 +45,7 @@ import org.wso2.carbon.identity.oauth.dcr.model.RegistrationRequestProfile;
 import org.wso2.carbon.identity.oauth.dcr.model.RegistrationResponseProfile;
 import org.wso2.carbon.identity.oauth.dcr.util.ErrorCodes;
 import org.wso2.carbon.identity.oauth.dto.OAuthConsumerAppDTO;
+import org.wso2.carbon.identity.oauth2.token.AccessTokenIssuer;
 import org.wso2.carbon.registry.core.Registry;
 import org.wso2.carbon.utils.multitenancy.MultitenantUtils;
 
@@ -94,6 +101,8 @@ public class DCRManagementService {
         registrationResponseProfile.setClientSecret(info.getClientSecret());
         registrationResponseProfile.setClientSecretExpiresAt(DEFAULT_CLIENT_SECRET_EXPIREY_TIME);
         registrationResponseProfile.setGrantTypes(info.getGrantTypes());
+        registrationResponseProfile.setRegistrationClientURI(info.getRegistrationClientURI());
+        registrationResponseProfile.setRegistrationAccessToken(info.getRegistrationAccessToken());
         return registrationResponseProfile;
     }
 
@@ -233,11 +242,24 @@ public class DCRManagementService {
                 throw IdentityException.error(DCRException.class, ErrorCodes.BAD_REQUEST.toString(), e.getMessage());
             }
 
+            //TODO: Extract Server from properties
+            OAuthIssuer oauthIssuerImpl = new OAuthIssuerImpl(new MD5Generator());
+            String accessToken = null;
+            try {
+                accessToken = oauthIssuerImpl.accessToken();
+            } catch (OAuthSystemException e) {
+                throw IdentityException.error(DCRException.class, ErrorCodes.BAD_REQUEST.toString(), e.getMessage());
+            }
+            String registrationURI = "https://localhost:9443/identity/register/"+createdApp.getOauthConsumerKey();
+
             RegistrationResponseProfile registrationResponseProfile = new RegistrationResponseProfile();
             registrationResponseProfile.setClientId(createdApp.getOauthConsumerKey());
             registrationResponseProfile.getRedirectUrls().add(createdApp.getCallbackUrl());
             registrationResponseProfile.setClientSecret(oauthConsumerSecret);
             registrationResponseProfile.setClientName(createdApp.getApplicationName());
+            registrationResponseProfile.setRegistrationAccessToken(accessToken);
+            registrationResponseProfile.setRegistrationClientURI(registrationURI);
+
             if (StringUtils.isNotBlank(createdApp.getGrantTypes())) {
                 String[] split = createdApp.getGrantTypes().split(" ");
                 registrationResponseProfile.setGrantTypes(Arrays.asList(split));
